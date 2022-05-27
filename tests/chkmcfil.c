@@ -14,7 +14,7 @@ START_TEST( test_mcityfile_sect ) {
       mcityfile_bytes, offset, (uint8_t*)data, MCITY_CHUNK_DATA_SZ_MAX );
 
    ck_assert_int_eq( data_sz, 32 );
-   ck_assert_str_eq( "Floating Island", &(data[1]) ); /* Skip first 0x1F */
+   ck_assert_str_eq( TEST_CITY_REALNAME, &(data[1]) ); /* Skip first 0x1F */
 }
 END_TEST
 

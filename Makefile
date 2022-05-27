@@ -1,7 +1,7 @@
 
 # vim: ft=make noexpandtab
 
-OBJECTS := src/mctyfile.o
+OBJECTS := src/mctyfile.o src/mctymaps.o
 
 BINDIR_LINUX = bin/linux
 

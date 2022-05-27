@@ -6,6 +6,9 @@
 
 #include <check.h>
 
+#define TEST_CITY_FILENAME "test1.sc2"
+#define TEST_CITY_REALNAME "Test1"
+
 void setup_mcityfile();
 void teardown_mcityfile();
 

@@ -11,7 +11,7 @@ void setup_mcityfile() {
    FILE* mcityfile_cty = NULL;
    struct MCITY_FILE_HEADER header;
    
-   mcityfile_cty = fopen( "floating.sc2", "rb" );
+   mcityfile_cty = fopen( TEST_CITY_FILENAME, "rb" );
    ck_assert_ptr_ne( mcityfile_cty, NULL );
 
    fread( &header, sizeof( struct MCITY_FILE_HEADER ), 1, mcityfile_cty );
