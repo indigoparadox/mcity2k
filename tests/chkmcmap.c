@@ -22,8 +22,7 @@ START_TEST( test_mcitymaps_altm ) {
 
    ck_assert_int_eq( data_sz, 32768 );
 
-   t = mcitymaps_get_altm(
-      mcityfile_bytes, mcityfile_sz, _i * 10, 127 );
+   t = mcitymaps_get_altm( &(mcityfile_bytes[offset]), _i * 10, 127 );
 
    switch( _i ) {
    case 0:

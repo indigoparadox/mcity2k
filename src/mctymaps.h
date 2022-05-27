@@ -20,8 +20,7 @@
 /**
  * \brief Get the altitude of the tile at the given position.
  */
-uint8_t mcitymaps_get_altm(
-   uint8_t* city_buf, uint32_t city_buf_sz, uint8_t x, uint8_t y );
+uint8_t mcitymaps_get_altm( uint8_t* altm_buf, uint8_t x, uint8_t y );
 
 #endif /* !MCTYMAPS_H */
 
