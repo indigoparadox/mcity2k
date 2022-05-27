@@ -39,10 +39,6 @@ $(OBJDIR_TESTS)/%.o: tests/$(notdir %.c)
 	$(MD) $(dir $@)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-obj/msp430g2553/%.o: $(notdir %.c)
-	$(MD) $(dir $@)
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 .PHONY: clean
 
 clean:
