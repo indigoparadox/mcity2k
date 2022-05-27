@@ -1,9 +1,15 @@
 
-#include "chksetup.h"
+#include <check.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "../src/mctyfile.h"
+#include "../src/mctymaps.h"
 
-START_TEST( test_mcityfile_sect ) {
+#include "chksetup.h"
+
+START_TEST( test_mcitymaps_altm ) {
    uint32_t offset = 0,
       data_sz = 0;
    char data[MCITY_CHUNK_DATA_SZ_MAX] = { 0 };
@@ -18,7 +24,7 @@ START_TEST( test_mcityfile_sect ) {
 }
 END_TEST
 
-Suite* mcityfile_suite( void ) {
+Suite* mcitymaps_suite( void ) {
    Suite* s;
    TCase* tc_core;
 
@@ -28,7 +34,7 @@ Suite* mcityfile_suite( void ) {
    tc_core = tcase_create( "Core" );
 
    tcase_add_checked_fixture( tc_core, setup_mcityfile, teardown_mcityfile );
-   tcase_add_test( tc_core, test_mcityfile_sect );
+   tcase_add_test( tc_core, test_mcitymaps_altm );
 
    suite_add_tcase( s, tc_core );
 

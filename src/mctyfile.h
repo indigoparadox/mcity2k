@@ -4,6 +4,8 @@
 
 #include <stdint.h>
 
+#define MCITYFILE_ERROR 0
+
 #define MCITY_FILE_HEADER_SZ 12
 #define MCITY_CHUNK_HEADER_SZ 8
 #define MCITY_CHUNK_DATA_SZ_MAX 16384
@@ -23,6 +25,9 @@ struct MCITY_FILE_HEADER {
 
 uint32_t mcityfile_next_chunk(
    const uint8_t* city_buf, uint32_t city_buf_sz, uint32_t prev_offset );
+
+uint32_t mcityfile_find_chunk(
+   const uint8_t* city_buf, uint32_t city_buf_sz, char id[5] );
 
 uint32_t mcityfile_chunk_data(
    const uint8_t* city_buf, uint32_t offset,

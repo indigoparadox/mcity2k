@@ -23,7 +23,7 @@ mcity2k: OBJDIR := obj/mcity2k
 
 all: $(BINDIR_LINUX)/libmcity2k.a test_mcity2k
 
-test_mcity2k: $(BINDIR_LINUX)/libmcity2k.a $(OBJDIR_TESTS)/check.o $(OBJDIR_TESTS)/chkmcfil.o
+test_mcity2k: $(BINDIR_LINUX)/libmcity2k.a $(OBJDIR_TESTS)/check.o $(OBJDIR_TESTS)/chkmcfil.o $(OBJDIR_TESTS)/chkmcmap.o $(OBJDIR_TESTS)/chksetup.o
 	$(MD) $(dir $@)
 	$(CC) -o $@ $^ $(LDFLAGS)
 

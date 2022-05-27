@@ -13,11 +13,13 @@
    srunner_free( sr_ ## suite_name );
 
 main_add_test_proto( mcityfile )
+main_add_test_proto( mcitymaps )
 
 int main( void ) {
    int number_failed = 0;
 
    main_add_test( mcityfile );
+   main_add_test( mcitymaps );
 
    return( number_failed == 0 ) ? 0 : 1;
 }

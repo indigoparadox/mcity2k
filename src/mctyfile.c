@@ -17,10 +17,27 @@ uint32_t mcityfile_next_chunk(
 
    /* Make sure next chunk is within the city buffer. */
    if( prev_offset + MCITY_CHUNK_HEADER_SZ + chunk_sz > city_buf_sz ) {
-      return 0;
+      return MCITYFILE_ERROR;
    }
 
    return prev_offset + MCITY_CHUNK_HEADER_SZ + chunk_sz;
+}
+
+uint32_t mcityfile_find_chunk(
+   const uint8_t* city_buf, uint32_t city_buf_sz, char id[5]
+) {
+   uint32_t offset = 0;
+   char id_iter[5] = { 0 };
+
+   do {
+      offset = mcityfile_next_chunk( city_buf, city_buf_sz, offset );
+      if( MCITYFILE_ERROR == offset ) {
+         break;
+      }
+      mcityfile_chunk_id( city_buf, offset, id_iter );
+   } while( 0 != strncmp( id_iter, id, 4 ) );
+
+   return offset;
 }
 
 uint32_t mcityfile_chunk_data(
@@ -60,7 +77,7 @@ uint32_t mcityfile_chunk_data_rle(
             buffer[i_dest++] = i_src++;
             if( i_dest >= buffer_sz ) {
                /* Buffer too small. */
-               return 0;
+               return MCITYFILE_ERROR;
             }
             i_rle--;
          }
@@ -75,7 +92,7 @@ uint32_t mcityfile_chunk_data_rle(
             buffer[i_dest++] = i_src;
             if( i_dest >= buffer_sz ) {
                /* Buffer too small. */
-               return 0;
+               return MCITYFILE_ERROR;
             }
             i_rle--;
          }
