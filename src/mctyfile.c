@@ -65,36 +65,52 @@ uint32_t mcityfile_chunk_data_rle(
       i_dest = 0,
       i_rle = 0;
 
+   /* Grab chunk size and skip the header. */
    chunk_sz = mcityfile_chunk_sz( city_buf, offset );
+   offset += MCITY_CHUNK_HEADER_SZ;
 
+   /* Decode the chunk data. */
    while( i_src < chunk_sz ) {
+      if( 0 == city_buf[offset + i_src] || 128 == city_buf[offset + i_src] ) {
+         /* Invalid encoding byte. */
+         return MCITYFILE_ERROR;
+      }
+
       if( 128 > city_buf[offset + i_src] ) {
          /* Compression: next i_rle bytes are uncompressed. */
+
+         /* Grab RLE count and move to data start. */
          i_rle = city_buf[offset + i_src];
          i_src++;
 
          while( 0 < i_rle ) {
-            buffer[i_dest++] = i_src++;
+            buffer[i_dest++] = city_buf[offset + i_src];
+
+            i_src++;
+            i_rle--;
             if( i_dest >= buffer_sz ) {
                /* Buffer too small. */
                return MCITYFILE_ERROR;
             }
-            i_rle--;
          }
 
       } else if( 128 < city_buf[offset + i_src] ) {
          /* Compression: next byte repeated i_rle times. */
+
+         /* Grab RLE count and move to data start. */
          i_rle = city_buf[offset + i_src] - 127;
          i_src++;
 
          /* Unroll compressed byte into dest buffer. */
          while( 0 < i_rle ) {
-            buffer[i_dest++] = i_src;
+            
+            buffer[i_dest++] = city_buf[offset + i_src];
+            i_rle--;
+
             if( i_dest >= buffer_sz ) {
                /* Buffer too small. */
                return MCITYFILE_ERROR;
             }
-            i_rle--;
          }
 
          i_src++;
@@ -102,6 +118,6 @@ uint32_t mcityfile_chunk_data_rle(
 
    }
 
-   return chunk_sz;
+   return i_dest;
 }
 

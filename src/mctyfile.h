@@ -8,7 +8,7 @@
 
 #define MCITY_FILE_HEADER_SZ 12
 #define MCITY_CHUNK_HEADER_SZ 8
-#define MCITY_CHUNK_DATA_SZ_MAX 16384
+#define MCITY_CHUNK_DATA_SZ_MAX 32768
 #define MCITY_CHUNK_SZ_OFFSET 4
 
 #define mcityfile_endian_swap_32( num ) (((num>>24)&0xff) | ((num<<8)&0xff0000) | ((num>>8)&0xff00) | ((num<<24)&0xff000000))

@@ -14,13 +14,26 @@ START_TEST( test_mcitymaps_altm ) {
       data_sz = 0;
    char data[MCITY_CHUNK_DATA_SZ_MAX] = { 0 };
 
-   offset = mcityfile_find_chunk( mcityfile_bytes, mcityfile_sz, "CNAM" );
+   offset = mcityfile_find_chunk( mcityfile_bytes, mcityfile_sz, "ALTM" );
 
    data_sz = mcityfile_chunk_data(
       mcityfile_bytes, offset, (uint8_t*)data, MCITY_CHUNK_DATA_SZ_MAX );
 
-   ck_assert_int_eq( data_sz, 32 );
-   ck_assert_str_eq( "Floating Island", &(data[1]) ); /* Skip first 0x1F */
+   ck_assert_int_eq( data_sz, 32768 );
+}
+END_TEST
+
+START_TEST( test_mcitymaps_xbld ) {
+   uint32_t offset = 0,
+      data_sz = 0;
+   char data[MCITY_CHUNK_DATA_SZ_MAX] = { 0 };
+
+   offset = mcityfile_find_chunk( mcityfile_bytes, mcityfile_sz, "XBLD" );
+
+   data_sz = mcityfile_chunk_data_rle(
+      mcityfile_bytes, offset, (uint8_t*)data, MCITY_CHUNK_DATA_SZ_MAX );
+
+   ck_assert_int_eq( data_sz, 16384 );
 }
 END_TEST
 
@@ -35,6 +48,7 @@ Suite* mcitymaps_suite( void ) {
 
    tcase_add_checked_fixture( tc_core, setup_mcityfile, teardown_mcityfile );
    tcase_add_test( tc_core, test_mcitymaps_altm );
+   tcase_add_test( tc_core, test_mcitymaps_xbld );
 
    suite_add_tcase( s, tc_core );
 
