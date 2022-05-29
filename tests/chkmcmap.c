@@ -6,6 +6,7 @@
 
 #include "../src/mctyfile.h"
 #include "../src/mctymaps.h"
+#include "../src/mctyxbld.h"
 
 #include "chksetup.h"
 
