@@ -2,42 +2,38 @@
 # vim: ft=make noexpandtab
 
 OBJECTS := src/mctyfile.o src/mctymaps.o
+OBJECTS_TESTS := tests/check.o tests/chkmcfil.o tests/chkmcmap.o tests/chksetup.o
 
-BINDIR_LINUX = bin/linux
+BINDIR = bin
 
-OBJDIR_TESTS = obj/test_mcity2k
+OBJDIR = obj
 
 MD=mkdir -v -p
 
-CFLAGS := -Wall -Werror
+CFLAGS := -Wall -Werror -fpic
 
-$(BINDIR_LINUX)/libmcity2k.a: OBJDIR := obj/linux
+$(BINDIR)/libmcity2k.a: OBJDIR := obj/linux
 
-test_mcity2k: LDFLAGS += $(shell pkg-config --libs check) -Lbin/linux/ -lmcity2k
-test_mcity2k: CFLAGS += -DCHECK -g -Wall -Werror
-test_mcity2k: OBJDIR := $(OBJDIR_TESTS)
+test_mcity2k: LDFLAGS += $(shell pkg-config --libs check) -L$(BINDIR)/static -lmcity2k
+test_mcity2k: CFLAGS += -DCHECK -g
 
-mcity2k: LDFLAGS += -Lbin/linux/ -lmcity2k
-mcity2k: CFLAGS += -g -Wall -Werror
-mcity2k: OBJDIR := obj/mcity2k
+all: $(BINDIR)/static/libmcity2k.a $(BINDIR)/shared/libmcity2k.so test_mcity2k
 
-all: $(BINDIR_LINUX)/libmcity2k.a test_mcity2k
-
-test_mcity2k: $(BINDIR_LINUX)/libmcity2k.a $(OBJDIR_TESTS)/check.o $(OBJDIR_TESTS)/chkmcfil.o $(OBJDIR_TESTS)/chkmcmap.o $(OBJDIR_TESTS)/chksetup.o
+test_mcity2k: $(BINDIR)/static/libmcity2k.a $(addprefix $(OBJDIR)/,$(OBJECTS_TESTS))
 	$(MD) $(dir $@)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-$(BINDIR_LINUX)/libmcity2k.a: $(addprefix obj/linux/,$(OBJECTS))
+$(BINDIR)/static/libmcity2k.a: $(addprefix $(OBJDIR)/,$(OBJECTS))
 	$(MD) $(dir $@)
 	$(AR) rcs $@ $^
 
-obj/linux/%.o: %.c
+$(BINDIR)/shared/libmcity2k.so: $(addprefix $(OBJDIR)/,$(OBJECTS))
 	$(MD) $(dir $@)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -shared -o $@ $^
 
-$(OBJDIR_TESTS)/%.o: tests/$(notdir %.c)
+$(OBJDIR)/%.o: %.c
 	$(MD) $(dir $@)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $(CFLAGS) $<
 
 .PHONY: clean
 
