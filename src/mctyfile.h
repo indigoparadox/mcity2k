@@ -20,6 +20,9 @@
 /*! \brief Returned when there is an error parsing a chunk or file. */
 #define MCITYFILE_ERROR 0
 
+/*! \brief Offset of the file size in the file header in bytes. */
+#define MCITY_FILE_SZ_OFFSET 4
+
 /*! \brief Size of the initial file header in bytes. */
 #define MCITY_FILE_HEADER_SZ 12
 
@@ -57,13 +60,6 @@
 #define mcityfile_chunk_id( city_buf, offset, id ) id[0] = city_buf[offset]; id[1] = city_buf[offset + 1]; id[2] = city_buf[offset + 2]; id[3] = city_buf[offset + 3];
 
 /*! \} */
-
-struct MCITY_FILE_HEADER {
-   /*! \brief City file magic number. Should always be "FORM". */
-   char magic[4];
-   uint32_t file_sz;
-   char iff_type[4];
-};
 
 /**
  * \addtogroup mcity2k_chunks 
